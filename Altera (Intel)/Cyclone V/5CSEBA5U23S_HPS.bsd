@@ -1,0 +1,128 @@
+-- Copyright (C) 1991-2014 Altera Corporation
+--
+-- BSDL Version : 1.00
+-- Device       : 5CSEBA5U23S_HPS
+-- 
+--
+-- ***********************************************************************************
+-- *                                  IMPORTANT NOTICE                               *
+-- ***********************************************************************************
+--
+-- Your use of Altera Corporation's design tools, logic functions and
+-- other software and tools, and its AMPP partner logic functions,
+-- and any output files from any of the foregoing (including
+-- device programming or simulation files), and any associated documentation or
+-- information are expressly subject to the terms and conditions of
+-- the Altera Program License Subscription Agreement, the Altera Quartus II
+-- License Agreement,the Altera MegaCore Function License Agreement, or other applicable
+-- license agreement, including, without limitation, that your use is for
+-- the sole purpose of programming logic devices manufactured by Altera
+-- and sold by Altera or its authorized distributors.  Please
+-- refer to the applicable agreement for further details.
+--
+-- This file works before and after device configuration.
+-- 
+-- ***This file is for FPGA with HPS only.***
+--
+--
+-- ***********************************************************************************
+-- *                            ENTITY DEFINITION WITH PORTS                         *
+-- ***********************************************************************************
+
+entity CYCLONE_V_5CSEBA5U23S_HPS is
+generic (PHYSICAL_PIN_MAP : string := "UFBGA672");
+
+port (
+--JTAG Ports
+	HPS_TMS   , HPS_TCK   , HPS_TRST  , HPS_TDI   : in bit;
+	HPS_TDO   : out bit
+);
+
+use STD_1149_1_2001.all;
+attribute COMPONENT_CONFORMANCE of CYCLONE_V_5CSEBA5U23S_HPS :
+entity is "STD_1149_1_2001";
+
+-- ***********************************************************************************
+-- *                                    PIN MAPPING                                  *
+-- ***********************************************************************************
+
+attribute PIN_MAP of CYCLONE_V_5CSEBA5U23S_HPS : entity is PHYSICAL_PIN_MAP;
+constant UFBGA672 : PIN_MAP_STRING :=
+--JTAG ports
+	"HPS_TDO   : B23  , HPS_TMS   : C23  , HPS_TCK   : K19  , HPS_TRST  : C22  , "&
+	"HPS_TDI   : D22    ";
+
+-- ***********************************************************************************
+-- *                              IEEE 1149.1 TAP PORTS                              *
+-- ***********************************************************************************
+
+attribute TAP_SCAN_IN of HPS_TDI     : signal is true;
+attribute TAP_SCAN_MODE of HPS_TMS   : signal is true;
+attribute TAP_SCAN_OUT of HPS_TDO    : signal is true;
+attribute TAP_SCAN_CLOCK of HPS_TCK  : signal is (10.00e6,BOTH);
+attribute TAP_SCAN_RESET of HPS_TRST : signal is true;
+
+-- ***********************************************************************************
+-- *                          INSTRUCTIONS AND REGISTER ACCESS                       *
+-- ***********************************************************************************
+
+
+attribute INSTRUCTION_LENGTH of CYCLONE_V_5CSEBA5U23S_HPS : entity is 4;
+attribute INSTRUCTION_OPCODE of CYCLONE_V_5CSEBA5U23S_HPS : entity is
+                           
+-- IEEE Std.1149.1
+  "ABORT				(1000), "&
+  "DPACC				(1010), "&
+  "APACC				(1011), "&
+  "IDCODE				(1110), "&
+  "BYPASS				(1111), "&
+  "EXTEST				(0000), "&	-- WARNING: UNIMPLEMENTED, DO NOT USE
+  "SAMPLE				(0001), "&	-- WARNING: UNIMPLEMENTED, DO NOT USE
+  "PRELOAD				(0001)  ";	-- WARNING: UNIMPLEMENTED, DO NOT USE
+	
+attribute INSTRUCTION_CAPTURE of CYCLONE_V_5CSEBA5U23S_HPS : entity is "xx01";
+
+attribute INSTRUCTION_PRIVATE of CYCLONE_V_5CSEBA5U23S_HPS : entity is
+  "ABORT,"&				-- ARM Debug Access Port Instructions
+  "DPACC,"&				-- ARM Debug Access Port Instructions
+  "APACC";				-- ARM Debug Access Port Instructions
+
+
+attribute IDCODE_REGISTER of CYCLONE_V_5CSEBA5U23S_HPS : entity is
+  "0100"&               --4-bit Version
+  "1011101000000000"&   --16-bit Part Number (hex BA00)
+  "01000111011"&        --11-bit Manufacturer's Identity
+  "1";                  --Mandatory LSB
+
+attribute REGISTER_ACCESS of CYCLONE_V_5CSEBA5U23S_HPS : entity is
+  "BYPASS				(BYPASS)," &
+  "DEVICE_ID		    		(IDCODE)" ;
+
+
+
+-- ***********************************************************************************
+-- *                           BOUNDARY SCAN CELL INFORMATION                        *
+-- ***********************************************************************************
+
+attribute BOUNDARY_LENGTH of CYCLONE_V_5CSEBA5U23S_HPS : entity is 1;
+attribute BOUNDARY_REGISTER of CYCLONE_V_5CSEBA5U23S_HPS : entity is
+  "0 (BC_0, *, internal,X)";
+
+-- ***********************************************************************************
+-- *                                   DESIGN WARNING                                *
+-- ***********************************************************************************
+
+attribute DESIGN_WARNING of CYCLONE_V_5CSEBA5U23S_HPS : entity is
+"Although the CYCLONE_V_5CSEBA5U23S_HPS device contains circuitry to support the"&
+"TAP controller, this device does not offer Boundary Scan Cells to"&
+"support the EXTEST and SAMPLE/PRELOAD instructions.  When the"&
+"instruction register is updated with these instructions, the"&
+"bypass register is selected.";  
+
+end CYCLONE_V_5CSEBA5U23S_HPS;
+
+-- *********************************************************************
+-- *                            REVISION HISTORY                       *
+-- *********************************************************************
+--    Revision        Date       	Description                      
+--    1.00           04/23/2014 	Initial release

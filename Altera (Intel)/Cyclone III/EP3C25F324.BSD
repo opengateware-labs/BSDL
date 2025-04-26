@@ -1,0 +1,1486 @@
+-- Copyright (C) 1998-2007 Altera Corporation
+--
+-- File Name     : EP3C25F324.BSD
+-- Device        : EP3C25F324
+-- Package       : 19mm 324FBGA
+-- BSDL Version  : 1.02
+-- Date Created  : 04/18/2007
+-- Created by    : Altera BSDL Generation Program Ver. 1.23      
+-- Documentation : CYCLONE III Handbook chapter: IEEE 1149.1 (JTAG)
+--                 Boundary Scan Testing in Cyclone III Devices
+--
+-- *********************************************************************
+-- *                           IMPORTANT NOTICE                        *
+-- *********************************************************************
+--
+-- Altera, CYCLONE III and EP3C25 are trademarks of Altera
+-- Corporation.  Altera products, marketed under trademarks, are
+-- protected under numerous US and foreign patents and pending
+-- applications, maskwork rights, and copyrights.   Altera warrants
+-- performance of its semiconductor products to current specifications
+-- in accordance with Altera's standard warranty, but reserves the
+-- right to make changes to any products and services at any time
+-- without notice.  Altera assumes no responsibility or liability
+-- arising out of the application or use of any information, product,
+-- or service described herein except as expressly agreed to in
+-- writing by Altera Corporation.  Altera customers are advised to
+-- obtain the latest version of device specifications before relying
+-- on any published information and before placing orders for products
+-- or services.
+--
+--                   **Testing After Configuration**
+--  This file supports boundary scan testing (BST) before device
+--  configuration.  After configuration, you should use the BSDL 
+--  Customizer tool available on www.altera.com/support/devices/bsdl/bsdl.html
+--  to create a post-configuraion BSDL file.
+--
+--  Pin E2 (FLASH_nCE,nCSO) is dedicated output pin when the MSEL pins  
+--  are connected to set the device in Active Serial programming mode or
+--  Active Parallel programming mode. Therefore, it is specified as output pin. 
+--
+-- *********************************************************************
+-- *                     ENTITY DEFINITION WITH PORTS                  *
+-- *********************************************************************
+
+entity EP3C25F324 is
+  generic (PHYSICAL_PIN_MAP : string := "FBGA324");
+
+port (
+--I/O Pins
+    IOB2   , IOB1   , IOC2   , IOC1   , IOC3   , IOD3   , IOD2   , 
+    IOF3   , IOE1   , IOH6   , IOG2   , IOG1   , 
+    IOH2   , IOH1   , IOH3   , IOK2   , IOK1   , IOK5   , IOL5   , 
+    IOL6   , IOL2   , IOL1   , IOL4   , IOL3   , IOM2   , IOM1   , 
+    IOM3   , IOP2   , IOP1   , IOR2   , IOR1   , IOT2   , IOT1   , 
+    IOT3   , IOR3   , IOM5   , IOR5   , IOR4   , IOU1   , IOV1   , 
+    IOM6   , ION6   , IOT4   , IOP6   , IOU2   , IOV2   , ION7   , 
+    ION8   , IOP7   , IOT6   , IOU3   , IOV3   , ION9   , IOU4   , 
+    IOV4   , IOU5   , IOV5   , IOR8   , IOT8   , IOP8   , IOP9   , 
+    IOU6   , IOV6   , IOU7   , IOV7   , IOU8   , IOV8   , IOU11  , 
+    IOV11  , IOU12  , IOV12  , IOU13  , IOV13  , IOP10  , IOP11  , 
+    IOU14  , IOV14  , IOU15  , IOV15  , IOR11  , IOP12  , IOT11  , 
+    IOU16  , IOV16  , ION10  , ION11  , IOT13  , IOT14  , IOU17  , 
+    IOV17  , IOR13  , IOP13  , ION12  , IOU18  , IOV18  , IOM13  , 
+    ION13  , ION15  , IOT16  , IOR16  , IOT18  , IOT17  , IOR18  , 
+    IOR17  , IOP18  , IOP17  , ION16  , IOM14  , IOL13  , IOL15  , 
+    IOL14  , IOM17  , IOL16  , IOM18  , IOL17  , IOL18  , IOK18  , 
+    IOK17  , IOH18  , IOH17  , IOG18  , IOG17  , IOJ13  , IOE18  , 
+    IOE17  , IOH16  , IOD18  , IOD17  , IOH15  , IOH14  , IOH13  , 
+    IOG14  , IOC18  , IOC17  , IOB18  , IOB17  , IOF13  , IOG13  , 
+    IOC16  , IOD16  , IOA18  , IOA17  , IOC14  , IOD14  , IOE14  , 
+    IOE13  , IOF12  , IOE12  , IOD12  , IOA16  , IOB16  , IOF11  , 
+    IOF10  , IOC12  , IOA15  , IOB15  , IOA14  , IOB14  , IOA13  , 
+    IOB13  , IOA12  , IOB12  , IOA11  , IOB11  , IOE11  , IOC10  , 
+    IOD10  , IOE10  , IOC9   , IOD9   , IOE9   , IOA8   , IOB8   , 
+    IOA7   , IOB7   , IOA6   , IOB6   , IOC7   , IOA5   , IOB5   , 
+    IOC5   , IOD7   , IOF9   , IOE8   , IOA4   , IOB4   , IOE7   , 
+    IOF8   , IOA3   , IOB3   , IOE6   , IOF7   , IOF6   , IOD5   , 
+    IOA1   , IOA2   , IOG6   : inout bit;
+    IOE2   : out bit;
+    IOD1   : linkage bit;
+--CYCLONEIII Family-Specific Pins
+    CLK0          , CLK1          , CLK10         , CLK11         , 
+    CLK12         , CLK13         , CLK14         , CLK15         , 
+    CLK2          , CLK3          , CLK4          , CLK5          , 
+    CLK6          , CLK7          , CLK8          , CLK9          , 
+    MSEL0         , MSEL1         , MSEL2         , 
+    MSEL3         : in bit;
+    CONF_DONE     , nCE           , nCONFIG       , nSTATUS       ,
+    DCLK
+    : linkage bit;
+--JTAG Ports
+    TCK    , TMS    , TDI    : in bit;
+    TDO    : out bit;
+--Power Pins
+    VCC    : linkage bit_vector (1 to 50);
+--Ground Pins
+    GND    : linkage bit_vector (1 to 46)
+);
+
+use STD_1149_1_1994.all;
+
+attribute COMPONENT_CONFORMANCE of EP3C25F324 :
+          entity is "STD_1149_1_1993";
+
+-- *********************************************************************
+-- *                             PIN MAPPING                           *
+-- *********************************************************************
+
+attribute PIN_MAP of EP3C25F324 : entity is PHYSICAL_PIN_MAP;
+constant FBGA324 : PIN_MAP_STRING :=
+--I/O Pins
+    "IOB2   : B2  , IOB1   : B1  , IOC2   : C2  , IOC1   : C1  , "&
+    "IOC3   : C3  , IOD3   : D3  , IOD2   : D2  , IOD1   : D1  , "&
+    "IOF3   : F3  , IOE1   : E1  , IOH6   : H6  , IOE2   : E2  , "&
+    "IOG2   : G2  , IOG1   : G1  , IOH2   : H2  , IOH1   : H1  , "&
+    "IOH3   : H3  , IOK2   : K2  , IOK1   : K1  , IOK5   : K5  , "&
+    "IOL5   : L5  , IOL6   : L6  , IOL2   : L2  , IOL1   : L1  , "&
+    "IOL4   : L4  , IOL3   : L3  , IOM2   : M2  , IOM1   : M1  , "&
+    "IOM3   : M3  , IOP2   : P2  , IOP1   : P1  , IOR2   : R2  , "&
+    "IOR1   : R1  , IOT2   : T2  , IOT1   : T1  , IOT3   : T3  , "&
+    "IOR3   : R3  , IOM5   : M5  , IOR5   : R5  , IOR4   : R4  , "&
+    "IOU1   : U1  , IOV1   : V1  , IOM6   : M6  , ION6   : N6  , "&
+    "IOT4   : T4  , IOP6   : P6  , IOU2   : U2  , IOV2   : V2  , "&
+    "ION7   : N7  , ION8   : N8  , IOP7   : P7  , IOT6   : T6  , "&
+    "IOU3   : U3  , IOV3   : V3  , ION9   : N9  , IOU4   : U4  , "&
+    "IOV4   : V4  , IOU5   : U5  , IOV5   : V5  , IOR8   : R8  , "&
+    "IOT8   : T8  , IOP8   : P8  , IOP9   : P9  , IOU6   : U6  , "&
+    "IOV6   : V6  , IOU7   : U7  , IOV7   : V7  , IOU8   : U8  , "&
+    "IOV8   : V8  , IOU11  : U11 , IOV11  : V11 , IOU12  : U12 , "&
+    "IOV12  : V12 , IOU13  : U13 , IOV13  : V13 , IOP10  : P10 , "&
+    "IOP11  : P11 , IOU14  : U14 , IOV14  : V14 , IOU15  : U15 , "&
+    "IOV15  : V15 , IOR11  : R11 , IOP12  : P12 , IOT11  : T11 , "&
+    "IOU16  : U16 , IOV16  : V16 , ION10  : N10 , ION11  : N11 , "&
+    "IOT13  : T13 , IOT14  : T14 , IOU17  : U17 , IOV17  : V17 , "&
+    "IOR13  : R13 , IOP13  : P13 , ION12  : N12 , IOU18  : U18 , "&
+    "IOV18  : V18 , IOM13  : M13 , ION13  : N13 , ION15  : N15 , "&
+    "IOT16  : T16 , IOR16  : R16 , IOT18  : T18 , IOT17  : T17 , "&
+    "IOR18  : R18 , IOR17  : R17 , IOP18  : P18 , IOP17  : P17 , "&
+    "ION16  : N16 , IOM14  : M14 , IOL13  : L13 , IOL15  : L15 , "&
+    "IOL14  : L14 , IOM17  : M17 , IOL16  : L16 , IOM18  : M18 , "&
+    "IOL17  : L17 , IOL18  : L18 , IOK18  : K18 , IOK17  : K17 , "&
+    "IOH18  : H18 , IOH17  : H17 , IOG18  : G18 , IOG17  : G17 , "&
+    "IOJ13  : J13 , IOE18  : E18 , IOE17  : E17 , IOH16  : H16 , "&
+    "IOD18  : D18 , IOD17  : D17 , IOH15  : H15 , IOH14  : H14 , "&
+    "IOH13  : H13 , IOG14  : G14 , IOC18  : C18 , IOC17  : C17 , "&
+    "IOB18  : B18 , IOB17  : B17 , IOF13  : F13 , IOG13  : G13 , "&
+    "IOC16  : C16 , IOD16  : D16 , IOA18  : A18 , IOA17  : A17 , "&
+    "IOC14  : C14 , IOD14  : D14 , IOE14  : E14 , IOE13  : E13 , "&
+    "IOF12  : F12 , IOE12  : E12 , IOD12  : D12 , IOA16  : A16 , "&
+    "IOB16  : B16 , IOF11  : F11 , IOF10  : F10 , IOC12  : C12 , "&
+    "IOA15  : A15 , IOB15  : B15 , IOA14  : A14 , IOB14  : B14 , "&
+    "IOA13  : A13 , IOB13  : B13 , IOA12  : A12 , IOB12  : B12 , "&
+    "IOA11  : A11 , IOB11  : B11 , IOE11  : E11 , IOC10  : C10 , "&
+    "IOD10  : D10 , IOE10  : E10 , IOC9   : C9  , IOD9   : D9  , "&
+    "IOE9   : E9  , IOA8   : A8  , IOB8   : B8  , IOA7   : A7  , "&
+    "IOB7   : B7  , IOA6   : A6  , IOB6   : B6  , IOC7   : C7  , "&
+    "IOA5   : A5  , IOB5   : B5  , IOC5   : C5  , IOD7   : D7  , "&
+    "IOF9   : F9  , IOE8   : E8  , IOA4   : A4  , IOB4   : B4  , "&
+    "IOE7   : E7  , IOF8   : F8  , IOA3   : A3  , IOB3   : B3  , "&
+    "IOE6   : E6  , IOF7   : F7  , IOF6   : F6  , IOD5   : D5  , "&
+    "IOA1   : A1  , IOA2   : A2  , IOG6   : G6  , "&
+--CYCLONEIII Family-Specific Pins
+    "CLK0          : F2  , CLK1          : F1  , CLK10         : A9  , "&
+    "CLK11         : B9  , CLK12         : V10 , CLK13         : U10 , "&
+    "CLK14         : V9  , CLK15         : U9  , CLK2          : N2  , "&
+    "CLK3          : N1  , CLK4          : F17 , CLK5          : F18 , "&
+    "CLK6          : N17 , CLK7          : N18 , CLK8          : A10 , "&
+    "CLK9          : B10 , DCLK          : H4  , MSEL0         : K13 , "&
+    "MSEL1         : J18 , MSEL2         : J17 , MSEL3         : J14 , "&
+    "CONF_DONE     : K14 , nCE           : K6  , nCONFIG       : H5  , "&
+    "nSTATUS       : G5  , "&
+--JTAG ports
+    "TCK    : J1 , TMS    : J2 , TDI    : J6 , TDO    : J5 , "&
+--Power Pins
+    "VCC    : (F5  , E4  , P4  , P15 , N14 , N5  , E15 , G7  , "&
+              "G8  , G10 , G11 , G12 , H7  , H12 , J7  , J12 , "&
+              "K7  , K12 , L7  , L12 , M7  , M8  , M9  , M11 , "&
+              "M12 , F4  , G4  , J4  , K4  , M4  , N4  , R6  , "&
+              "R7  , R9  , R10 , R12 , R14 , K15 , M15 , R15 , "&
+              "F16 , G15 , J15 , D11 , D13 , D15 , D4  , D6  , "&
+              "D8  , F14 ), "&
+--Ground Pins
+    "GND    : (E5  , P5  , P14 , F15 , G9  , H9  , H8  , J8  , "&
+              "J9  , J10 , H10 , H11 , J11 , K11 , K10 , K9  , "&
+              "K8  , L8  , L9  , L10 , M10 , L11 , C15 , C13 , "&
+              "C11 , C8  , C6  , C4  , E3  , G3  , J3  , K3  , "&
+              "N3  , P3  , T5  , T7  , T9  , T10 , T12 , T15 , "&
+              "P16 , M16 , J16 , K16 , G16 , E16 )";
+
+-- *********************************************************************
+-- *                       IEEE 1149.1 TAP PORTS                       *
+-- *********************************************************************
+
+attribute TAP_SCAN_IN of TDI     : signal is true;
+attribute TAP_SCAN_MODE of TMS   : signal is true;
+attribute TAP_SCAN_OUT of TDO    : signal is true;
+attribute TAP_SCAN_CLOCK of TCK  : signal is (10.00e6,BOTH);
+
+-- *********************************************************************
+-- *                   INSTRUCTIONS AND REGISTER ACCESS                *
+-- *********************************************************************
+
+attribute INSTRUCTION_LENGTH of EP3C25F324 : entity is 10;
+attribute INSTRUCTION_OPCODE of EP3C25F324 : entity is
+  "BYPASS            (1111111111), "&
+  "EXTEST            (0000001111), "&
+  "SAMPLE            (0000000101), "&
+  "IDCODE            (0000000110), "&
+  "USERCODE          (0000000111), "&
+  "CLAMP             (0000001010), "&
+  "HIGHZ             (0000001011), "&
+  "ACTIVE_ENGAGE     (1010110000), "&
+  "ACTIVE_DISENGAGE  (1011010000), "&
+  "PRIVATE           (1000010000, 1001000000, 1011100000), "&
+  "CONFIG_IO         (0000001101)";
+
+attribute INSTRUCTION_CAPTURE of EP3C25F324 : entity is "0101010101";
+
+attribute INSTRUCTION_PRIVATE of EP3C25F324  : entity is "PRIVATE";
+
+attribute IDCODE_REGISTER of EP3C25F324 : entity is
+  "0000"&               --4-bit Version
+  "0010000011110011"&   --16-bit Part Number (hex 20F3)
+  "00001101110"&        --11-bit Manufacturer's Identity
+  "1";                  --Mandatory LSB
+attribute USERCODE_REGISTER of EP3C25F324 : entity is
+  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";  --All 32 bits are programmable
+attribute REGISTER_ACCESS of EP3C25F324 : entity is
+  "DEVICE_ID        (IDCODE), "&
+  "IOCSR[10476]     (CONFIG_IO)";
+
+-- *********************************************************************
+-- *                    BOUNDARY SCAN CELL INFORMATION                 *
+-- *********************************************************************
+
+attribute BOUNDARY_LENGTH of EP3C25F324 : entity is 732;
+attribute BOUNDARY_REGISTER of EP3C25F324 : entity is
+  --BSC group 0 for I/O pin G6
+  "0   (BC_1, IOG6, input, X)," &
+  "1   (BC_1, *, control, 1)," &
+  "2   (BC_1, IOG6, output3, X, 1, 1, Z)," &
+
+  --BSC group 1 for I/O pin A2
+  "3   (BC_1, IOA2, input, X)," &
+  "4   (BC_1, *, control, 1)," &
+  "5   (BC_1, IOA2, output3, X, 4, 1, Z)," &
+
+  --BSC group 2 for I/O pin A1
+  "6   (BC_1, IOA1, input, X)," &
+  "7   (BC_1, *, control, 1)," &
+  "8   (BC_1, IOA1, output3, X, 7, 1, Z)," &
+
+  --BSC group 3 for unused pad
+  "9   (BC_4, *, internal, X)," &
+  "10  (BC_4, *, internal, 1)," &
+  "11  (BC_4, *, internal, X)," &
+
+  --BSC group 4 for unused pad
+  "12  (BC_4, *, internal, X)," &
+  "13  (BC_4, *, internal, 1)," &
+  "14  (BC_4, *, internal, X)," &
+
+  --BSC group 5 for I/O pin D5
+  "15  (BC_1, IOD5, input, X)," &
+  "16  (BC_1, *, control, 1)," &
+  "17  (BC_1, IOD5, output3, X, 16, 1, Z)," &
+
+  --BSC group 6 for I/O pin F6
+  "18  (BC_1, IOF6, input, X)," &
+  "19  (BC_1, *, control, 1)," &
+  "20  (BC_1, IOF6, output3, X, 19, 1, Z)," &
+
+  --BSC group 7 for unused pad
+  "21  (BC_4, *, internal, X)," &
+  "22  (BC_4, *, internal, 1)," &
+  "23  (BC_4, *, internal, X)," &
+
+  --BSC group 8 for I/O pin F7
+  "24  (BC_1, IOF7, input, X)," &
+  "25  (BC_1, *, control, 1)," &
+  "26  (BC_1, IOF7, output3, X, 25, 1, Z)," &
+
+  --BSC group 9 for I/O pin E6
+  "27  (BC_1, IOE6, input, X)," &
+  "28  (BC_1, *, control, 1)," &
+  "29  (BC_1, IOE6, output3, X, 28, 1, Z)," &
+
+  --BSC group 10 for I/O pin B3
+  "30  (BC_1, IOB3, input, X)," &
+  "31  (BC_1, *, control, 1)," &
+  "32  (BC_1, IOB3, output3, X, 31, 1, Z)," &
+
+  --BSC group 11 for I/O pin A3
+  "33  (BC_1, IOA3, input, X)," &
+  "34  (BC_1, *, control, 1)," &
+  "35  (BC_1, IOA3, output3, X, 34, 1, Z)," &
+
+  --BSC group 12 for I/O pin F8
+  "36  (BC_1, IOF8, input, X)," &
+  "37  (BC_1, *, control, 1)," &
+  "38  (BC_1, IOF8, output3, X, 37, 1, Z)," &
+
+  --BSC group 13 for I/O pin E7
+  "39  (BC_1, IOE7, input, X)," &
+  "40  (BC_1, *, control, 1)," &
+  "41  (BC_1, IOE7, output3, X, 40, 1, Z)," &
+
+  --BSC group 14 for I/O pin B4
+  "42  (BC_1, IOB4, input, X)," &
+  "43  (BC_1, *, control, 1)," &
+  "44  (BC_1, IOB4, output3, X, 43, 1, Z)," &
+
+  --BSC group 15 for I/O pin A4
+  "45  (BC_1, IOA4, input, X)," &
+  "46  (BC_1, *, control, 1)," &
+  "47  (BC_1, IOA4, output3, X, 46, 1, Z)," &
+
+  --BSC group 16 for I/O pin E8
+  "48  (BC_1, IOE8, input, X)," &
+  "49  (BC_1, *, control, 1)," &
+  "50  (BC_1, IOE8, output3, X, 49, 1, Z)," &
+
+  --BSC group 17 for I/O pin F9
+  "51  (BC_1, IOF9, input, X)," &
+  "52  (BC_1, *, control, 1)," &
+  "53  (BC_1, IOF9, output3, X, 52, 1, Z)," &
+
+  --BSC group 18 for unused pad
+  "54  (BC_4, *, internal, X)," &
+  "55  (BC_4, *, internal, 1)," &
+  "56  (BC_4, *, internal, X)," &
+
+  --BSC group 19 for I/O pin D7
+  "57  (BC_1, IOD7, input, X)," &
+  "58  (BC_1, *, control, 1)," &
+  "59  (BC_1, IOD7, output3, X, 58, 1, Z)," &
+
+  --BSC group 20 for I/O pin C5
+  "60  (BC_1, IOC5, input, X)," &
+  "61  (BC_1, *, control, 1)," &
+  "62  (BC_1, IOC5, output3, X, 61, 1, Z)," &
+
+  --BSC group 21 for I/O pin B5
+  "63  (BC_1, IOB5, input, X)," &
+  "64  (BC_1, *, control, 1)," &
+  "65  (BC_1, IOB5, output3, X, 64, 1, Z)," &
+
+  --BSC group 22 for I/O pin A5
+  "66  (BC_1, IOA5, input, X)," &
+  "67  (BC_1, *, control, 1)," &
+  "68  (BC_1, IOA5, output3, X, 67, 1, Z)," &
+
+  --BSC group 23 for I/O pin C7
+  "69  (BC_1, IOC7, input, X)," &
+  "70  (BC_1, *, control, 1)," &
+  "71  (BC_1, IOC7, output3, X, 70, 1, Z)," &
+
+  --BSC group 24 for I/O pin B6
+  "72  (BC_1, IOB6, input, X)," &
+  "73  (BC_1, *, control, 1)," &
+  "74  (BC_1, IOB6, output3, X, 73, 1, Z)," &
+
+  --BSC group 25 for I/O pin A6
+  "75  (BC_1, IOA6, input, X)," &
+  "76  (BC_1, *, control, 1)," &
+  "77  (BC_1, IOA6, output3, X, 76, 1, Z)," &
+
+  --BSC group 26 for I/O pin B7
+  "78  (BC_1, IOB7, input, X)," &
+  "79  (BC_1, *, control, 1)," &
+  "80  (BC_1, IOB7, output3, X, 79, 1, Z)," &
+
+  --BSC group 27 for I/O pin A7
+  "81  (BC_1, IOA7, input, X)," &
+  "82  (BC_1, *, control, 1)," &
+  "83  (BC_1, IOA7, output3, X, 82, 1, Z)," &
+
+  --BSC group 28 for I/O pin B8
+  "84  (BC_1, IOB8, input, X)," &
+  "85  (BC_1, *, control, 1)," &
+  "86  (BC_1, IOB8, output3, X, 85, 1, Z)," &
+
+  --BSC group 29 for I/O pin A8
+  "87  (BC_1, IOA8, input, X)," &
+  "88  (BC_1, *, control, 1)," &
+  "89  (BC_1, IOA8, output3, X, 88, 1, Z)," &
+
+  --BSC group 30 for unused pad
+  "90  (BC_4, *, internal, X)," &
+  "91  (BC_4, *, internal, 1)," &
+  "92  (BC_4, *, internal, X)," &
+
+  --BSC group 31 for I/O pin E9
+  "93  (BC_1, IOE9, input, X)," &
+  "94  (BC_1, *, control, 1)," &
+  "95  (BC_1, IOE9, output3, X, 94, 1, Z)," &
+
+  --BSC group 32 for I/O pin D9
+  "96  (BC_1, IOD9, input, X)," &
+  "97  (BC_1, *, control, 1)," &
+  "98  (BC_1, IOD9, output3, X, 97, 1, Z)," &
+
+  --BSC group 33 for I/O pin C9
+  "99  (BC_1, IOC9, input, X)," &
+  "100 (BC_1, *, control, 1)," &
+  "101 (BC_1, IOC9, output3, X, 100, 1, Z)," &
+
+  --BSC group 34 for I/O pin E10
+  "102 (BC_1, IOE10, input, X)," &
+  "103 (BC_1, *, control, 1)," &
+  "104 (BC_1, IOE10, output3, X, 103, 1, Z)," &
+
+  --BSC group 35 for Family-specific input pin B9
+  "105 (BC_4, CLK11, input, X)," &
+  "106 (BC_4, *, internal, X)," &
+  "107 (BC_4, *, internal, X)," &
+
+  --BSC group 36 for Family-specific input pin A9
+  "108 (BC_4, CLK10, input, X)," &
+  "109 (BC_4, *, internal, X)," &
+  "110 (BC_4, *, internal, X)," &
+
+  --BSC group 37 for Family-specific input pin B10
+  "111 (BC_4, CLK9, input, X)," &
+  "112 (BC_4, *, internal, X)," &
+  "113 (BC_4, *, internal, X)," &
+
+  --BSC group 38 for Family-specific input pin A10
+  "114 (BC_4, CLK8, input, X)," &
+  "115 (BC_4, *, internal, X)," &
+  "116 (BC_4, *, internal, X)," &
+
+  --BSC group 39 for I/O pin D10
+  "117 (BC_1, IOD10, input, X)," &
+  "118 (BC_1, *, control, 1)," &
+  "119 (BC_1, IOD10, output3, X, 118, 1, Z)," &
+
+  --BSC group 40 for I/O pin C10
+  "120 (BC_1, IOC10, input, X)," &
+  "121 (BC_1, *, control, 1)," &
+  "122 (BC_1, IOC10, output3, X, 121, 1, Z)," &
+
+  --BSC group 41 for I/O pin E11
+  "123 (BC_1, IOE11, input, X)," &
+  "124 (BC_1, *, control, 1)," &
+  "125 (BC_1, IOE11, output3, X, 124, 1, Z)," &
+
+  --BSC group 42 for I/O pin B11
+  "126 (BC_1, IOB11, input, X)," &
+  "127 (BC_1, *, control, 1)," &
+  "128 (BC_1, IOB11, output3, X, 127, 1, Z)," &
+
+  --BSC group 43 for I/O pin A11
+  "129 (BC_1, IOA11, input, X)," &
+  "130 (BC_1, *, control, 1)," &
+  "131 (BC_1, IOA11, output3, X, 130, 1, Z)," &
+
+  --BSC group 44 for I/O pin B12
+  "132 (BC_1, IOB12, input, X)," &
+  "133 (BC_1, *, control, 1)," &
+  "134 (BC_1, IOB12, output3, X, 133, 1, Z)," &
+
+  --BSC group 45 for I/O pin A12
+  "135 (BC_1, IOA12, input, X)," &
+  "136 (BC_1, *, control, 1)," &
+  "137 (BC_1, IOA12, output3, X, 136, 1, Z)," &
+
+  --BSC group 46 for I/O pin B13
+  "138 (BC_1, IOB13, input, X)," &
+  "139 (BC_1, *, control, 1)," &
+  "140 (BC_1, IOB13, output3, X, 139, 1, Z)," &
+
+  --BSC group 47 for I/O pin A13
+  "141 (BC_1, IOA13, input, X)," &
+  "142 (BC_1, *, control, 1)," &
+  "143 (BC_1, IOA13, output3, X, 142, 1, Z)," &
+
+  --BSC group 48 for I/O pin B14
+  "144 (BC_1, IOB14, input, X)," &
+  "145 (BC_1, *, control, 1)," &
+  "146 (BC_1, IOB14, output3, X, 145, 1, Z)," &
+
+  --BSC group 49 for I/O pin A14
+  "147 (BC_1, IOA14, input, X)," &
+  "148 (BC_1, *, control, 1)," &
+  "149 (BC_1, IOA14, output3, X, 148, 1, Z)," &
+
+  --BSC group 50 for I/O pin B15
+  "150 (BC_1, IOB15, input, X)," &
+  "151 (BC_1, *, control, 1)," &
+  "152 (BC_1, IOB15, output3, X, 151, 1, Z)," &
+
+  --BSC group 51 for I/O pin A15
+  "153 (BC_1, IOA15, input, X)," &
+  "154 (BC_1, *, control, 1)," &
+  "155 (BC_1, IOA15, output3, X, 154, 1, Z)," &
+
+  --BSC group 52 for I/O pin C12
+  "156 (BC_1, IOC12, input, X)," &
+  "157 (BC_1, *, control, 1)," &
+  "158 (BC_1, IOC12, output3, X, 157, 1, Z)," &
+
+  --BSC group 53 for I/O pin F10
+  "159 (BC_1, IOF10, input, X)," &
+  "160 (BC_1, *, control, 1)," &
+  "161 (BC_1, IOF10, output3, X, 160, 1, Z)," &
+
+  --BSC group 54 for I/O pin F11
+  "162 (BC_1, IOF11, input, X)," &
+  "163 (BC_1, *, control, 1)," &
+  "164 (BC_1, IOF11, output3, X, 163, 1, Z)," &
+
+  --BSC group 55 for I/O pin B16
+  "165 (BC_1, IOB16, input, X)," &
+  "166 (BC_1, *, control, 1)," &
+  "167 (BC_1, IOB16, output3, X, 166, 1, Z)," &
+
+  --BSC group 56 for I/O pin A16
+  "168 (BC_1, IOA16, input, X)," &
+  "169 (BC_1, *, control, 1)," &
+  "170 (BC_1, IOA16, output3, X, 169, 1, Z)," &
+
+  --BSC group 57 for I/O pin D12
+  "171 (BC_1, IOD12, input, X)," &
+  "172 (BC_1, *, control, 1)," &
+  "173 (BC_1, IOD12, output3, X, 172, 1, Z)," &
+
+  --BSC group 58 for I/O pin E12
+  "174 (BC_1, IOE12, input, X)," &
+  "175 (BC_1, *, control, 1)," &
+  "176 (BC_1, IOE12, output3, X, 175, 1, Z)," &
+
+  --BSC group 59 for unused pad
+  "177 (BC_4, *, internal, X)," &
+  "178 (BC_4, *, internal, 1)," &
+  "179 (BC_4, *, internal, X)," &
+
+  --BSC group 60 for I/O pin F12
+  "180 (BC_1, IOF12, input, X)," &
+  "181 (BC_1, *, control, 1)," &
+  "182 (BC_1, IOF12, output3, X, 181, 1, Z)," &
+
+  --BSC group 61 for unused pad
+  "183 (BC_4, *, internal, X)," &
+  "184 (BC_4, *, internal, 1)," &
+  "185 (BC_4, *, internal, X)," &
+
+  --BSC group 62 for unused pad
+  "186 (BC_4, *, internal, X)," &
+  "187 (BC_4, *, internal, 1)," &
+  "188 (BC_4, *, internal, X)," &
+
+  --BSC group 63 for I/O pin E13
+  "189 (BC_1, IOE13, input, X)," &
+  "190 (BC_1, *, control, 1)," &
+  "191 (BC_1, IOE13, output3, X, 190, 1, Z)," &
+
+  --BSC group 64 for I/O pin E14
+  "192 (BC_1, IOE14, input, X)," &
+  "193 (BC_1, *, control, 1)," &
+  "194 (BC_1, IOE14, output3, X, 193, 1, Z)," &
+
+  --BSC group 65 for I/O pin D14
+  "195 (BC_1, IOD14, input, X)," &
+  "196 (BC_1, *, control, 1)," &
+  "197 (BC_1, IOD14, output3, X, 196, 1, Z)," &
+
+  --BSC group 66 for I/O pin C14
+  "198 (BC_1, IOC14, input, X)," &
+  "199 (BC_1, *, control, 1)," &
+  "200 (BC_1, IOC14, output3, X, 199, 1, Z)," &
+
+  --BSC group 67 for I/O pin A17
+  "201 (BC_1, IOA17, input, X)," &
+  "202 (BC_1, *, control, 1)," &
+  "203 (BC_1, IOA17, output3, X, 202, 1, Z)," &
+
+  --BSC group 68 for I/O pin A18
+  "204 (BC_1, IOA18, input, X)," &
+  "205 (BC_1, *, control, 1)," &
+  "206 (BC_1, IOA18, output3, X, 205, 1, Z)," &
+
+  --BSC group 69 for I/O pin D16
+  "207 (BC_1, IOD16, input, X)," &
+  "208 (BC_1, *, control, 1)," &
+  "209 (BC_1, IOD16, output3, X, 208, 1, Z)," &
+
+  --BSC group 70 for I/O pin C16
+  "210 (BC_1, IOC16, input, X)," &
+  "211 (BC_1, *, control, 1)," &
+  "212 (BC_1, IOC16, output3, X, 211, 1, Z)," &
+
+  --BSC group 71 for I/O pin G13
+  "213 (BC_1, IOG13, input, X)," &
+  "214 (BC_1, *, control, 1)," &
+  "215 (BC_1, IOG13, output3, X, 214, 1, Z)," &
+
+  --BSC group 72 for I/O pin F13
+  "216 (BC_1, IOF13, input, X)," &
+  "217 (BC_1, *, control, 1)," &
+  "218 (BC_1, IOF13, output3, X, 217, 1, Z)," &
+
+  --BSC group 73 for I/O pin B17
+  "219 (BC_1, IOB17, input, X)," &
+  "220 (BC_1, *, control, 1)," &
+  "221 (BC_1, IOB17, output3, X, 220, 1, Z)," &
+
+  --BSC group 74 for I/O pin B18
+  "222 (BC_1, IOB18, input, X)," &
+  "223 (BC_1, *, control, 1)," &
+  "224 (BC_1, IOB18, output3, X, 223, 1, Z)," &
+
+  --BSC group 75 for I/O pin C17
+  "225 (BC_1, IOC17, input, X)," &
+  "226 (BC_1, *, control, 1)," &
+  "227 (BC_1, IOC17, output3, X, 226, 1, Z)," &
+
+  --BSC group 76 for I/O pin C18
+  "228 (BC_1, IOC18, input, X)," &
+  "229 (BC_1, *, control, 1)," &
+  "230 (BC_1, IOC18, output3, X, 229, 1, Z)," &
+
+  --BSC group 77 for I/O pin G14
+  "231 (BC_1, IOG14, input, X)," &
+  "232 (BC_1, *, control, 1)," &
+  "233 (BC_1, IOG14, output3, X, 232, 1, Z)," &
+
+  --BSC group 78 for I/O pin H13
+  "234 (BC_1, IOH13, input, X)," &
+  "235 (BC_1, *, control, 1)," &
+  "236 (BC_1, IOH13, output3, X, 235, 1, Z)," &
+
+  --BSC group 79 for I/O pin H14
+  "237 (BC_1, IOH14, input, X)," &
+  "238 (BC_1, *, control, 1)," &
+  "239 (BC_1, IOH14, output3, X, 238, 1, Z)," &
+
+  --BSC group 80 for I/O pin H15
+  "240 (BC_1, IOH15, input, X)," &
+  "241 (BC_1, *, control, 1)," &
+  "242 (BC_1, IOH15, output3, X, 241, 1, Z)," &
+
+  --BSC group 81 for I/O pin D17
+  "243 (BC_1, IOD17, input, X)," &
+  "244 (BC_1, *, control, 1)," &
+  "245 (BC_1, IOD17, output3, X, 244, 1, Z)," &
+
+  --BSC group 82 for I/O pin D18
+  "246 (BC_1, IOD18, input, X)," &
+  "247 (BC_1, *, control, 1)," &
+  "248 (BC_1, IOD18, output3, X, 247, 1, Z)," &
+
+  --BSC group 83 for I/O pin H16
+  "249 (BC_1, IOH16, input, X)," &
+  "250 (BC_1, *, control, 1)," &
+  "251 (BC_1, IOH16, output3, X, 250, 1, Z)," &
+
+  --BSC group 84 for I/O pin E17
+  "252 (BC_1, IOE17, input, X)," &
+  "253 (BC_1, *, control, 1)," &
+  "254 (BC_1, IOE17, output3, X, 253, 1, Z)," &
+
+  --BSC group 85 for I/O pin E18
+  "255 (BC_1, IOE18, input, X)," &
+  "256 (BC_1, *, control, 1)," &
+  "257 (BC_1, IOE18, output3, X, 256, 1, Z)," &
+
+  --BSC group 86 for I/O pin J13
+  "258 (BC_1, IOJ13, input, X)," &
+  "259 (BC_1, *, control, 1)," &
+  "260 (BC_1, IOJ13, output3, X, 259, 1, Z)," &
+
+  --BSC group 87 for I/O pin G17
+  "261 (BC_1, IOG17, input, X)," &
+  "262 (BC_1, *, control, 1)," &
+  "263 (BC_1, IOG17, output3, X, 262, 1, Z)," &
+
+  --BSC group 88 for I/O pin G18
+  "264 (BC_1, IOG18, input, X)," &
+  "265 (BC_1, *, control, 1)," &
+  "266 (BC_1, IOG18, output3, X, 265, 1, Z)," &
+
+  --BSC group 89 for I/O pin H17
+  "267 (BC_1, IOH17, input, X)," &
+  "268 (BC_1, *, control, 1)," &
+  "269 (BC_1, IOH17, output3, X, 268, 1, Z)," &
+
+  --BSC group 90 for I/O pin H18
+  "270 (BC_1, IOH18, input, X)," &
+  "271 (BC_1, *, control, 1)," &
+  "272 (BC_1, IOH18, output3, X, 271, 1, Z)," &
+
+  --BSC group 91 for Family-specific input pin J14
+  "273 (BC_4, MSEL3, input, X)," &
+  "274 (BC_4, *, internal, X)," &
+  "275 (BC_4, *, internal, X)," &
+
+  --BSC group 92 for Family-specific input pin J17
+  "276 (BC_4, MSEL2, input, X)," &
+  "277 (BC_4, *, internal, X)," &
+  "278 (BC_4, *, internal, X)," &
+
+  --BSC group 93 for Family-specific input pin J18
+  "279 (BC_4, MSEL1, input, X)," &
+  "280 (BC_4, *, internal, X)," &
+  "281 (BC_4, *, internal, X)," &
+
+  --BSC group 94 for Family-specific input pin K13
+  "282 (BC_4, MSEL0, input, X)," &
+  "283 (BC_4, *, internal, X)," &
+  "284 (BC_4, *, internal, X)," &
+
+  --BSC group 95 for untestable Family-specific pin
+  "285 (BC_4, *, internal, X)," &
+  "286 (BC_4, *, internal, 1)," &
+  "287 (BC_4, *, internal, X)," &
+
+  --BSC group 96 for Family-specific input pin F17
+  "288 (BC_4, CLK4, input, X)," &
+  "289 (BC_4, *, internal, X)," &
+  "290 (BC_4, *, internal, X)," &
+
+  --BSC group 97 for Family-specific input pin F18
+  "291 (BC_4, CLK5, input, X)," &
+  "292 (BC_4, *, internal, X)," &
+  "293 (BC_4, *, internal, X)," &
+
+  --BSC group 98 for Family-specific input pin N17
+  "294 (BC_4, CLK6, input, X)," &
+  "295 (BC_4, *, internal, X)," &
+  "296 (BC_4, *, internal, X)," &
+
+  --BSC group 99 for Family-specific input pin N18
+  "297 (BC_4, CLK7, input, X)," &
+  "298 (BC_4, *, internal, X)," &
+  "299 (BC_4, *, internal, X)," &
+
+  --BSC group 100 for unused pad
+  "300 (BC_4, *, internal, X)," &
+  "301 (BC_4, *, internal, 1)," &
+  "302 (BC_4, *, internal, X)," &
+
+  --BSC group 101 for I/O pin K17
+  "303 (BC_1, IOK17, input, X)," &
+  "304 (BC_1, *, control, 1)," &
+  "305 (BC_1, IOK17, output3, X, 304, 1, Z)," &
+
+  --BSC group 102 for I/O pin K18
+  "306 (BC_1, IOK18, input, X)," &
+  "307 (BC_1, *, control, 1)," &
+  "308 (BC_1, IOK18, output3, X, 307, 1, Z)," &
+
+  --BSC group 103 for I/O pin L18
+  "309 (BC_1, IOL18, input, X)," &
+  "310 (BC_1, *, control, 1)," &
+  "311 (BC_1, IOL18, output3, X, 310, 1, Z)," &
+
+  --BSC group 104 for I/O pin L17
+  "312 (BC_1, IOL17, input, X)," &
+  "313 (BC_1, *, control, 1)," &
+  "314 (BC_1, IOL17, output3, X, 313, 1, Z)," &
+
+  --BSC group 105 for I/O pin M18
+  "315 (BC_1, IOM18, input, X)," &
+  "316 (BC_1, *, control, 1)," &
+  "317 (BC_1, IOM18, output3, X, 316, 1, Z)," &
+
+  --BSC group 106 for I/O pin L16
+  "318 (BC_1, IOL16, input, X)," &
+  "319 (BC_1, *, control, 1)," &
+  "320 (BC_1, IOL16, output3, X, 319, 1, Z)," &
+
+  --BSC group 107 for I/O pin M17
+  "321 (BC_1, IOM17, input, X)," &
+  "322 (BC_1, *, control, 1)," &
+  "323 (BC_1, IOM17, output3, X, 322, 1, Z)," &
+
+  --BSC group 108 for unused pad
+  "324 (BC_4, *, internal, X)," &
+  "325 (BC_4, *, internal, 1)," &
+  "326 (BC_4, *, internal, X)," &
+
+  --BSC group 109 for I/O pin L14
+  "327 (BC_1, IOL14, input, X)," &
+  "328 (BC_1, *, control, 1)," &
+  "329 (BC_1, IOL14, output3, X, 328, 1, Z)," &
+
+  --BSC group 110 for I/O pin L15
+  "330 (BC_1, IOL15, input, X)," &
+  "331 (BC_1, *, control, 1)," &
+  "332 (BC_1, IOL15, output3, X, 331, 1, Z)," &
+
+  --BSC group 111 for I/O pin L13
+  "333 (BC_1, IOL13, input, X)," &
+  "334 (BC_1, *, control, 1)," &
+  "335 (BC_1, IOL13, output3, X, 334, 1, Z)," &
+
+  --BSC group 112 for I/O pin M14
+  "336 (BC_1, IOM14, input, X)," &
+  "337 (BC_1, *, control, 1)," &
+  "338 (BC_1, IOM14, output3, X, 337, 1, Z)," &
+
+  --BSC group 113 for I/O pin N16
+  "339 (BC_1, ION16, input, X)," &
+  "340 (BC_1, *, control, 1)," &
+  "341 (BC_1, ION16, output3, X, 340, 1, Z)," &
+
+  --BSC group 114 for I/O pin P17
+  "342 (BC_1, IOP17, input, X)," &
+  "343 (BC_1, *, control, 1)," &
+  "344 (BC_1, IOP17, output3, X, 343, 1, Z)," &
+
+  --BSC group 115 for I/O pin P18
+  "345 (BC_1, IOP18, input, X)," &
+  "346 (BC_1, *, control, 1)," &
+  "347 (BC_1, IOP18, output3, X, 346, 1, Z)," &
+
+  --BSC group 116 for I/O pin R17
+  "348 (BC_1, IOR17, input, X)," &
+  "349 (BC_1, *, control, 1)," &
+  "350 (BC_1, IOR17, output3, X, 349, 1, Z)," &
+
+  --BSC group 117 for I/O pin R18
+  "351 (BC_1, IOR18, input, X)," &
+  "352 (BC_1, *, control, 1)," &
+  "353 (BC_1, IOR18, output3, X, 352, 1, Z)," &
+
+  --BSC group 118 for I/O pin T17
+  "354 (BC_1, IOT17, input, X)," &
+  "355 (BC_1, *, control, 1)," &
+  "356 (BC_1, IOT17, output3, X, 355, 1, Z)," &
+
+  --BSC group 119 for I/O pin T18
+  "357 (BC_1, IOT18, input, X)," &
+  "358 (BC_1, *, control, 1)," &
+  "359 (BC_1, IOT18, output3, X, 358, 1, Z)," &
+
+  --BSC group 120 for I/O pin R16
+  "360 (BC_1, IOR16, input, X)," &
+  "361 (BC_1, *, control, 1)," &
+  "362 (BC_1, IOR16, output3, X, 361, 1, Z)," &
+
+  --BSC group 121 for I/O pin T16
+  "363 (BC_1, IOT16, input, X)," &
+  "364 (BC_1, *, control, 1)," &
+  "365 (BC_1, IOT16, output3, X, 364, 1, Z)," &
+
+  --BSC group 122 for I/O pin N15
+  "366 (BC_1, ION15, input, X)," &
+  "367 (BC_1, *, control, 1)," &
+  "368 (BC_1, ION15, output3, X, 367, 1, Z)," &
+
+  --BSC group 123 for unused pad
+  "369 (BC_4, *, internal, X)," &
+  "370 (BC_4, *, internal, 1)," &
+  "371 (BC_4, *, internal, X)," &
+
+  --BSC group 124 for unused pad
+  "372 (BC_4, *, internal, X)," &
+  "373 (BC_4, *, internal, 1)," &
+  "374 (BC_4, *, internal, X)," &
+
+  --BSC group 125 for I/O pin N13
+  "375 (BC_1, ION13, input, X)," &
+  "376 (BC_1, *, control, 1)," &
+  "377 (BC_1, ION13, output3, X, 376, 1, Z)," &
+
+  --BSC group 126 for I/O pin M13
+  "378 (BC_1, IOM13, input, X)," &
+  "379 (BC_1, *, control, 1)," &
+  "380 (BC_1, IOM13, output3, X, 379, 1, Z)," &
+
+  --BSC group 127 for I/O pin V18
+  "381 (BC_1, IOV18, input, X)," &
+  "382 (BC_1, *, control, 1)," &
+  "383 (BC_1, IOV18, output3, X, 382, 1, Z)," &
+
+  --BSC group 128 for I/O pin U18
+  "384 (BC_1, IOU18, input, X)," &
+  "385 (BC_1, *, control, 1)," &
+  "386 (BC_1, IOU18, output3, X, 385, 1, Z)," &
+
+  --BSC group 129 for I/O pin N12
+  "387 (BC_1, ION12, input, X)," &
+  "388 (BC_1, *, control, 1)," &
+  "389 (BC_1, ION12, output3, X, 388, 1, Z)," &
+
+  --BSC group 130 for I/O pin P13
+  "390 (BC_1, IOP13, input, X)," &
+  "391 (BC_1, *, control, 1)," &
+  "392 (BC_1, IOP13, output3, X, 391, 1, Z)," &
+
+  --BSC group 131 for I/O pin R13
+  "393 (BC_1, IOR13, input, X)," &
+  "394 (BC_1, *, control, 1)," &
+  "395 (BC_1, IOR13, output3, X, 394, 1, Z)," &
+
+  --BSC group 132 for unused pad
+  "396 (BC_4, *, internal, X)," &
+  "397 (BC_4, *, internal, 1)," &
+  "398 (BC_4, *, internal, X)," &
+
+  --BSC group 133 for I/O pin V17
+  "399 (BC_1, IOV17, input, X)," &
+  "400 (BC_1, *, control, 1)," &
+  "401 (BC_1, IOV17, output3, X, 400, 1, Z)," &
+
+  --BSC group 134 for I/O pin U17
+  "402 (BC_1, IOU17, input, X)," &
+  "403 (BC_1, *, control, 1)," &
+  "404 (BC_1, IOU17, output3, X, 403, 1, Z)," &
+
+  --BSC group 135 for I/O pin T14
+  "405 (BC_1, IOT14, input, X)," &
+  "406 (BC_1, *, control, 1)," &
+  "407 (BC_1, IOT14, output3, X, 406, 1, Z)," &
+
+  --BSC group 136 for I/O pin T13
+  "408 (BC_1, IOT13, input, X)," &
+  "409 (BC_1, *, control, 1)," &
+  "410 (BC_1, IOT13, output3, X, 409, 1, Z)," &
+
+  --BSC group 137 for I/O pin N11
+  "411 (BC_1, ION11, input, X)," &
+  "412 (BC_1, *, control, 1)," &
+  "413 (BC_1, ION11, output3, X, 412, 1, Z)," &
+
+  --BSC group 138 for I/O pin N10
+  "414 (BC_1, ION10, input, X)," &
+  "415 (BC_1, *, control, 1)," &
+  "416 (BC_1, ION10, output3, X, 415, 1, Z)," &
+
+  --BSC group 139 for I/O pin V16
+  "417 (BC_1, IOV16, input, X)," &
+  "418 (BC_1, *, control, 1)," &
+  "419 (BC_1, IOV16, output3, X, 418, 1, Z)," &
+
+  --BSC group 140 for I/O pin U16
+  "420 (BC_1, IOU16, input, X)," &
+  "421 (BC_1, *, control, 1)," &
+  "422 (BC_1, IOU16, output3, X, 421, 1, Z)," &
+
+  --BSC group 141 for I/O pin T11
+  "423 (BC_1, IOT11, input, X)," &
+  "424 (BC_1, *, control, 1)," &
+  "425 (BC_1, IOT11, output3, X, 424, 1, Z)," &
+
+  --BSC group 142 for I/O pin P12
+  "426 (BC_1, IOP12, input, X)," &
+  "427 (BC_1, *, control, 1)," &
+  "428 (BC_1, IOP12, output3, X, 427, 1, Z)," &
+
+  --BSC group 143 for I/O pin R11
+  "429 (BC_1, IOR11, input, X)," &
+  "430 (BC_1, *, control, 1)," &
+  "431 (BC_1, IOR11, output3, X, 430, 1, Z)," &
+
+  --BSC group 144 for I/O pin V15
+  "432 (BC_1, IOV15, input, X)," &
+  "433 (BC_1, *, control, 1)," &
+  "434 (BC_1, IOV15, output3, X, 433, 1, Z)," &
+
+  --BSC group 145 for I/O pin U15
+  "435 (BC_1, IOU15, input, X)," &
+  "436 (BC_1, *, control, 1)," &
+  "437 (BC_1, IOU15, output3, X, 436, 1, Z)," &
+
+  --BSC group 146 for I/O pin V14
+  "438 (BC_1, IOV14, input, X)," &
+  "439 (BC_1, *, control, 1)," &
+  "440 (BC_1, IOV14, output3, X, 439, 1, Z)," &
+
+  --BSC group 147 for I/O pin U14
+  "441 (BC_1, IOU14, input, X)," &
+  "442 (BC_1, *, control, 1)," &
+  "443 (BC_1, IOU14, output3, X, 442, 1, Z)," &
+
+  --BSC group 148 for I/O pin P11
+  "444 (BC_1, IOP11, input, X)," &
+  "445 (BC_1, *, control, 1)," &
+  "446 (BC_1, IOP11, output3, X, 445, 1, Z)," &
+
+  --BSC group 149 for I/O pin P10
+  "447 (BC_1, IOP10, input, X)," &
+  "448 (BC_1, *, control, 1)," &
+  "449 (BC_1, IOP10, output3, X, 448, 1, Z)," &
+
+  --BSC group 150 for I/O pin V13
+  "450 (BC_1, IOV13, input, X)," &
+  "451 (BC_1, *, control, 1)," &
+  "452 (BC_1, IOV13, output3, X, 451, 1, Z)," &
+
+  --BSC group 151 for I/O pin U13
+  "453 (BC_1, IOU13, input, X)," &
+  "454 (BC_1, *, control, 1)," &
+  "455 (BC_1, IOU13, output3, X, 454, 1, Z)," &
+
+  --BSC group 152 for unused pad
+  "456 (BC_4, *, internal, X)," &
+  "457 (BC_4, *, internal, 1)," &
+  "458 (BC_4, *, internal, X)," &
+
+  --BSC group 153 for unused pad
+  "459 (BC_4, *, internal, X)," &
+  "460 (BC_4, *, internal, 1)," &
+  "461 (BC_4, *, internal, X)," &
+
+  --BSC group 154 for I/O pin V12
+  "462 (BC_1, IOV12, input, X)," &
+  "463 (BC_1, *, control, 1)," &
+  "464 (BC_1, IOV12, output3, X, 463, 1, Z)," &
+
+  --BSC group 155 for I/O pin U12
+  "465 (BC_1, IOU12, input, X)," &
+  "466 (BC_1, *, control, 1)," &
+  "467 (BC_1, IOU12, output3, X, 466, 1, Z)," &
+
+  --BSC group 156 for I/O pin V11
+  "468 (BC_1, IOV11, input, X)," &
+  "469 (BC_1, *, control, 1)," &
+  "470 (BC_1, IOV11, output3, X, 469, 1, Z)," &
+
+  --BSC group 157 for I/O pin U11
+  "471 (BC_1, IOU11, input, X)," &
+  "472 (BC_1, *, control, 1)," &
+  "473 (BC_1, IOU11, output3, X, 472, 1, Z)," &
+
+  --BSC group 158 for Family-specific input pin V10
+  "474 (BC_4, CLK12, input, X)," &
+  "475 (BC_4, *, internal, X)," &
+  "476 (BC_4, *, internal, X)," &
+
+  --BSC group 159 for Family-specific input pin U10
+  "477 (BC_4, CLK13, input, X)," &
+  "478 (BC_4, *, internal, X)," &
+  "479 (BC_4, *, internal, X)," &
+
+  --BSC group 160 for Family-specific input pin V9
+  "480 (BC_4, CLK14, input, X)," &
+  "481 (BC_4, *, internal, X)," &
+  "482 (BC_4, *, internal, X)," &
+
+  --BSC group 161 for Family-specific input pin U9
+  "483 (BC_4, CLK15, input, X)," &
+  "484 (BC_4, *, internal, X)," &
+  "485 (BC_4, *, internal, X)," &
+
+  --BSC group 162 for I/O pin V8
+  "486 (BC_1, IOV8, input, X)," &
+  "487 (BC_1, *, control, 1)," &
+  "488 (BC_1, IOV8, output3, X, 487, 1, Z)," &
+
+  --BSC group 163 for I/O pin U8
+  "489 (BC_1, IOU8, input, X)," &
+  "490 (BC_1, *, control, 1)," &
+  "491 (BC_1, IOU8, output3, X, 490, 1, Z)," &
+
+  --BSC group 164 for I/O pin V7
+  "492 (BC_1, IOV7, input, X)," &
+  "493 (BC_1, *, control, 1)," &
+  "494 (BC_1, IOV7, output3, X, 493, 1, Z)," &
+
+  --BSC group 165 for I/O pin U7
+  "495 (BC_1, IOU7, input, X)," &
+  "496 (BC_1, *, control, 1)," &
+  "497 (BC_1, IOU7, output3, X, 496, 1, Z)," &
+
+  --BSC group 166 for I/O pin V6
+  "498 (BC_1, IOV6, input, X)," &
+  "499 (BC_1, *, control, 1)," &
+  "500 (BC_1, IOV6, output3, X, 499, 1, Z)," &
+
+  --BSC group 167 for I/O pin U6
+  "501 (BC_1, IOU6, input, X)," &
+  "502 (BC_1, *, control, 1)," &
+  "503 (BC_1, IOU6, output3, X, 502, 1, Z)," &
+
+  --BSC group 168 for I/O pin P9
+  "504 (BC_1, IOP9, input, X)," &
+  "505 (BC_1, *, control, 1)," &
+  "506 (BC_1, IOP9, output3, X, 505, 1, Z)," &
+
+  --BSC group 169 for I/O pin P8
+  "507 (BC_1, IOP8, input, X)," &
+  "508 (BC_1, *, control, 1)," &
+  "509 (BC_1, IOP8, output3, X, 508, 1, Z)," &
+
+  --BSC group 170 for I/O pin T8
+  "510 (BC_1, IOT8, input, X)," &
+  "511 (BC_1, *, control, 1)," &
+  "512 (BC_1, IOT8, output3, X, 511, 1, Z)," &
+
+  --BSC group 171 for I/O pin R8
+  "513 (BC_1, IOR8, input, X)," &
+  "514 (BC_1, *, control, 1)," &
+  "515 (BC_1, IOR8, output3, X, 514, 1, Z)," &
+
+  --BSC group 172 for unused pad
+  "516 (BC_4, *, internal, X)," &
+  "517 (BC_4, *, internal, 1)," &
+  "518 (BC_4, *, internal, X)," &
+
+  --BSC group 173 for I/O pin V5
+  "519 (BC_1, IOV5, input, X)," &
+  "520 (BC_1, *, control, 1)," &
+  "521 (BC_1, IOV5, output3, X, 520, 1, Z)," &
+
+  --BSC group 174 for I/O pin U5
+  "522 (BC_1, IOU5, input, X)," &
+  "523 (BC_1, *, control, 1)," &
+  "524 (BC_1, IOU5, output3, X, 523, 1, Z)," &
+
+  --BSC group 175 for I/O pin V4
+  "525 (BC_1, IOV4, input, X)," &
+  "526 (BC_1, *, control, 1)," &
+  "527 (BC_1, IOV4, output3, X, 526, 1, Z)," &
+
+  --BSC group 176 for I/O pin U4
+  "528 (BC_1, IOU4, input, X)," &
+  "529 (BC_1, *, control, 1)," &
+  "530 (BC_1, IOU4, output3, X, 529, 1, Z)," &
+
+  --BSC group 177 for I/O pin N9
+  "531 (BC_1, ION9, input, X)," &
+  "532 (BC_1, *, control, 1)," &
+  "533 (BC_1, ION9, output3, X, 532, 1, Z)," &
+
+  --BSC group 178 for I/O pin V3
+  "534 (BC_1, IOV3, input, X)," &
+  "535 (BC_1, *, control, 1)," &
+  "536 (BC_1, IOV3, output3, X, 535, 1, Z)," &
+
+  --BSC group 179 for I/O pin U3
+  "537 (BC_1, IOU3, input, X)," &
+  "538 (BC_1, *, control, 1)," &
+  "539 (BC_1, IOU3, output3, X, 538, 1, Z)," &
+
+  --BSC group 180 for I/O pin T6
+  "540 (BC_1, IOT6, input, X)," &
+  "541 (BC_1, *, control, 1)," &
+  "542 (BC_1, IOT6, output3, X, 541, 1, Z)," &
+
+  --BSC group 181 for I/O pin P7
+  "543 (BC_1, IOP7, input, X)," &
+  "544 (BC_1, *, control, 1)," &
+  "545 (BC_1, IOP7, output3, X, 544, 1, Z)," &
+
+  --BSC group 182 for unused pad
+  "546 (BC_4, *, internal, X)," &
+  "547 (BC_4, *, internal, 1)," &
+  "548 (BC_4, *, internal, X)," &
+
+  --BSC group 183 for I/O pin N8
+  "549 (BC_1, ION8, input, X)," &
+  "550 (BC_1, *, control, 1)," &
+  "551 (BC_1, ION8, output3, X, 550, 1, Z)," &
+
+  --BSC group 184 for I/O pin N7
+  "552 (BC_1, ION7, input, X)," &
+  "553 (BC_1, *, control, 1)," &
+  "554 (BC_1, ION7, output3, X, 553, 1, Z)," &
+
+  --BSC group 185 for unused pad
+  "555 (BC_4, *, internal, X)," &
+  "556 (BC_4, *, internal, 1)," &
+  "557 (BC_4, *, internal, X)," &
+
+  --BSC group 186 for I/O pin V2
+  "558 (BC_1, IOV2, input, X)," &
+  "559 (BC_1, *, control, 1)," &
+  "560 (BC_1, IOV2, output3, X, 559, 1, Z)," &
+
+  --BSC group 187 for I/O pin U2
+  "561 (BC_1, IOU2, input, X)," &
+  "562 (BC_1, *, control, 1)," &
+  "563 (BC_1, IOU2, output3, X, 562, 1, Z)," &
+
+  --BSC group 188 for I/O pin P6
+  "564 (BC_1, IOP6, input, X)," &
+  "565 (BC_1, *, control, 1)," &
+  "566 (BC_1, IOP6, output3, X, 565, 1, Z)," &
+
+  --BSC group 189 for unused pad
+  "567 (BC_4, *, internal, X)," &
+  "568 (BC_4, *, internal, 1)," &
+  "569 (BC_4, *, internal, X)," &
+
+  --BSC group 190 for unused pad
+  "570 (BC_4, *, internal, X)," &
+  "571 (BC_4, *, internal, 1)," &
+  "572 (BC_4, *, internal, X)," &
+
+  --BSC group 191 for I/O pin T4
+  "573 (BC_1, IOT4, input, X)," &
+  "574 (BC_1, *, control, 1)," &
+  "575 (BC_1, IOT4, output3, X, 574, 1, Z)," &
+
+  --BSC group 192 for I/O pin N6
+  "576 (BC_1, ION6, input, X)," &
+  "577 (BC_1, *, control, 1)," &
+  "578 (BC_1, ION6, output3, X, 577, 1, Z)," &
+
+  --BSC group 193 for I/O pin M6
+  "579 (BC_1, IOM6, input, X)," &
+  "580 (BC_1, *, control, 1)," &
+  "581 (BC_1, IOM6, output3, X, 580, 1, Z)," &
+
+  --BSC group 194 for I/O pin V1
+  "582 (BC_1, IOV1, input, X)," &
+  "583 (BC_1, *, control, 1)," &
+  "584 (BC_1, IOV1, output3, X, 583, 1, Z)," &
+
+  --BSC group 195 for I/O pin U1
+  "585 (BC_1, IOU1, input, X)," &
+  "586 (BC_1, *, control, 1)," &
+  "587 (BC_1, IOU1, output3, X, 586, 1, Z)," &
+
+  --BSC group 196 for I/O pin R4
+  "588 (BC_1, IOR4, input, X)," &
+  "589 (BC_1, *, control, 1)," &
+  "590 (BC_1, IOR4, output3, X, 589, 1, Z)," &
+
+  --BSC group 197 for I/O pin R5
+  "591 (BC_1, IOR5, input, X)," &
+  "592 (BC_1, *, control, 1)," &
+  "593 (BC_1, IOR5, output3, X, 592, 1, Z)," &
+
+  --BSC group 198 for I/O pin M5
+  "594 (BC_1, IOM5, input, X)," &
+  "595 (BC_1, *, control, 1)," &
+  "596 (BC_1, IOM5, output3, X, 595, 1, Z)," &
+
+  --BSC group 199 for I/O pin R3
+  "597 (BC_1, IOR3, input, X)," &
+  "598 (BC_1, *, control, 1)," &
+  "599 (BC_1, IOR3, output3, X, 598, 1, Z)," &
+
+  --BSC group 200 for I/O pin T3
+  "600 (BC_1, IOT3, input, X)," &
+  "601 (BC_1, *, control, 1)," &
+  "602 (BC_1, IOT3, output3, X, 601, 1, Z)," &
+
+  --BSC group 201 for I/O pin T1
+  "603 (BC_1, IOT1, input, X)," &
+  "604 (BC_1, *, control, 1)," &
+  "605 (BC_1, IOT1, output3, X, 604, 1, Z)," &
+
+  --BSC group 202 for I/O pin T2
+  "606 (BC_1, IOT2, input, X)," &
+  "607 (BC_1, *, control, 1)," &
+  "608 (BC_1, IOT2, output3, X, 607, 1, Z)," &
+
+  --BSC group 203 for I/O pin R1
+  "609 (BC_1, IOR1, input, X)," &
+  "610 (BC_1, *, control, 1)," &
+  "611 (BC_1, IOR1, output3, X, 610, 1, Z)," &
+
+  --BSC group 204 for I/O pin R2
+  "612 (BC_1, IOR2, input, X)," &
+  "613 (BC_1, *, control, 1)," &
+  "614 (BC_1, IOR2, output3, X, 613, 1, Z)," &
+
+  --BSC group 205 for I/O pin P1
+  "615 (BC_1, IOP1, input, X)," &
+  "616 (BC_1, *, control, 1)," &
+  "617 (BC_1, IOP1, output3, X, 616, 1, Z)," &
+
+  --BSC group 206 for I/O pin P2
+  "618 (BC_1, IOP2, input, X)," &
+  "619 (BC_1, *, control, 1)," &
+  "620 (BC_1, IOP2, output3, X, 619, 1, Z)," &
+
+  --BSC group 207 for I/O pin M3
+  "621 (BC_1, IOM3, input, X)," &
+  "622 (BC_1, *, control, 1)," &
+  "623 (BC_1, IOM3, output3, X, 622, 1, Z)," &
+
+  --BSC group 208 for I/O pin M1
+  "624 (BC_1, IOM1, input, X)," &
+  "625 (BC_1, *, control, 1)," &
+  "626 (BC_1, IOM1, output3, X, 625, 1, Z)," &
+
+  --BSC group 209 for I/O pin M2
+  "627 (BC_1, IOM2, input, X)," &
+  "628 (BC_1, *, control, 1)," &
+  "629 (BC_1, IOM2, output3, X, 628, 1, Z)," &
+
+  --BSC group 210 for I/O pin L3
+  "630 (BC_1, IOL3, input, X)," &
+  "631 (BC_1, *, control, 1)," &
+  "632 (BC_1, IOL3, output3, X, 631, 1, Z)," &
+
+  --BSC group 211 for I/O pin L4
+  "633 (BC_1, IOL4, input, X)," &
+  "634 (BC_1, *, control, 1)," &
+  "635 (BC_1, IOL4, output3, X, 634, 1, Z)," &
+
+  --BSC group 212 for I/O pin L1
+  "636 (BC_1, IOL1, input, X)," &
+  "637 (BC_1, *, control, 1)," &
+  "638 (BC_1, IOL1, output3, X, 637, 1, Z)," &
+
+  --BSC group 213 for I/O pin L2
+  "639 (BC_1, IOL2, input, X)," &
+  "640 (BC_1, *, control, 1)," &
+  "641 (BC_1, IOL2, output3, X, 640, 1, Z)," &
+
+  --BSC group 214 for I/O pin L6
+  "642 (BC_1, IOL6, input, X)," &
+  "643 (BC_1, *, control, 1)," &
+  "644 (BC_1, IOL6, output3, X, 643, 1, Z)," &
+
+  --BSC group 215 for I/O pin L5
+  "645 (BC_1, IOL5, input, X)," &
+  "646 (BC_1, *, control, 1)," &
+  "647 (BC_1, IOL5, output3, X, 646, 1, Z)," &
+
+  --BSC group 216 for I/O pin K5
+  "648 (BC_1, IOK5, input, X)," &
+  "649 (BC_1, *, control, 1)," &
+  "650 (BC_1, IOK5, output3, X, 649, 1, Z)," &
+
+  --BSC group 217 for I/O pin K1
+  "651 (BC_1, IOK1, input, X)," &
+  "652 (BC_1, *, control, 1)," &
+  "653 (BC_1, IOK1, output3, X, 652, 1, Z)," &
+
+  --BSC group 218 for I/O pin K2
+  "654 (BC_1, IOK2, input, X)," &
+  "655 (BC_1, *, control, 1)," &
+  "656 (BC_1, IOK2, output3, X, 655, 1, Z)," &
+
+  --BSC group 219 for Family-specific input pin N1
+  "657 (BC_4, CLK3, input, X)," &
+  "658 (BC_4, *, internal, X)," &
+  "659 (BC_4, *, internal, X)," &
+
+  --BSC group 220 for Family-specific input pin N2
+  "660 (BC_4, CLK2, input, X)," &
+  "661 (BC_4, *, internal, X)," &
+  "662 (BC_4, *, internal, X)," &
+
+  --BSC group 221 for Family-specific input pin F1
+  "663 (BC_4, CLK1, input, X)," &
+  "664 (BC_4, *, internal, X)," &
+  "665 (BC_4, *, internal, X)," &
+
+  --BSC group 222 for Family-specific input pin F2
+  "666 (BC_4, CLK0, input, X)," &
+  "667 (BC_4, *, internal, X)," &
+  "668 (BC_4, *, internal, X)," &
+
+  --BSC group 223 for untestable Family-specific pin
+  "669 (BC_4, *, internal, X)," &
+  "670 (BC_4, *, internal, 1)," &
+  "671 (BC_4, *, internal, X)," &
+
+  --BSC group 224 for untestable Family-specific pin
+  "672 (BC_4, *, internal, X)," &
+  "673 (BC_4, *, internal, 1)," &
+  "674 (BC_4, *, internal, X)," &
+
+  --BSC group 225 for I/O pin H3
+  "675 (BC_1, IOH3, input, X)," &
+  "676 (BC_1, *, control, 1)," &
+  "677 (BC_1, IOH3, output3, X, 676, 1, Z)," &
+
+  --BSC group 226 for untestable Family-specific pin
+  "678 (BC_4, *, internal, X)," &
+  "679 (BC_4, *, internal, 1)," &
+  "680 (BC_4, *, internal, X)," &
+
+  --BSC group 227 for I/O pin H1
+  "681 (BC_1, IOH1, input, X)," &
+  "682 (BC_1, *, control, 1)," &
+  "683 (BC_1, IOH1, output3, X, 682, 1, Z)," &
+
+  --BSC group 228 for I/O pin H2
+  "684 (BC_1, IOH2, input, X)," &
+  "685 (BC_1, *, control, 1)," &
+  "686 (BC_1, IOH2, output3, X, 685, 1, Z)," &
+
+  --BSC group 229 for I/O pin G1
+  "687 (BC_1, IOG1, input, X)," &
+  "688 (BC_1, *, control, 1)," &
+  "689 (BC_1, IOG1, output3, X, 688, 1, Z)," &
+
+  --BSC group 230 for I/O pin G2
+  "690 (BC_1, IOG2, input, X)," &
+  "691 (BC_1, *, control, 1)," &
+  "692 (BC_1, IOG2, output3, X, 691, 1, Z)," &
+
+  --BSC group 231 for I/O pin H6
+  "693 (BC_1, IOH6, input, X)," &
+  "694 (BC_1, *, control, 1)," &
+  "695 (BC_1, IOH6, output3, X, 694, 1, Z)," &
+
+  --BSC group 232 for untestable Family-specific pin
+  "696 (BC_4, *, internal, X)," &
+  "697 (BC_4, *, internal, 1)," &
+  "698 (BC_4, *, internal, X)," &
+
+  --BSC group 233 for I/O pin E1
+  "699 (BC_1, IOE1, input, X)," &
+  "700 (BC_1, *, control, 1)," &
+  "701 (BC_1, IOE1, output3, X, 700, 1, Z)," &
+
+  --BSC group 234 for output pin E2
+  "702 (BC_4, *, internal, X)," &
+  "703 (BC_1, *, control, 1)," &
+  "704 (BC_1, IOE2, output3, X, 703, 1, Z)," &
+
+  --BSC group 235 for I/O pin F3
+  "705 (BC_1, IOF3, input, X)," &
+  "706 (BC_1, *, control, 1)," &
+  "707 (BC_1, IOF3, output3, X, 706, 1, Z)," &
+
+  --BSC group 236 for untestable pin
+  "708 (BC_4, *, internal, X)," &
+  "709 (BC_4, *, internal, 1)," &
+  "710 (BC_4, *, internal, X)," &
+
+  --BSC group 237 for I/O pin D2
+  "711 (BC_1, IOD2, input, X)," &
+  "712 (BC_1, *, control, 1)," &
+  "713 (BC_1, IOD2, output3, X, 712, 1, Z)," &
+
+  --BSC group 238 for I/O pin D3
+  "714 (BC_1, IOD3, input, X)," &
+  "715 (BC_1, *, control, 1)," &
+  "716 (BC_1, IOD3, output3, X, 715, 1, Z)," &
+
+  --BSC group 239 for I/O pin C3
+  "717 (BC_1, IOC3, input, X)," &
+  "718 (BC_1, *, control, 1)," &
+  "719 (BC_1, IOC3, output3, X, 718, 1, Z)," &
+
+  --BSC group 240 for I/O pin C1
+  "720 (BC_1, IOC1, input, X)," &
+  "721 (BC_1, *, control, 1)," &
+  "722 (BC_1, IOC1, output3, X, 721, 1, Z)," &
+
+  --BSC group 241 for I/O pin C2
+  "723 (BC_1, IOC2, input, X)," &
+  "724 (BC_1, *, control, 1)," &
+  "725 (BC_1, IOC2, output3, X, 724, 1, Z)," &
+
+  --BSC group 242 for I/O pin B1
+  "726 (BC_1, IOB1, input, X)," &
+  "727 (BC_1, *, control, 1)," &
+  "728 (BC_1, IOB1, output3, X, 727, 1, Z)," &
+
+  --BSC group 243 for I/O pin B2
+  "729 (BC_1, IOB2, input, X)," &
+  "730 (BC_1, *, control, 1)," &
+  "731 (BC_1, IOB2, output3, X, 730, 1, Z)" ;
+
+-- *********************************************************************
+-- *                            DESIGN WARNING                         *
+-- *********************************************************************
+
+attribute DESIGN_WARNING of EP3C25F324 : entity is
+  "This EP3C25 BSDL file supports 1149.1 testing before device"&
+  "configuration.  Boundary scan testing with differential pin"&
+  "pairs after configuration require changes to this file.  Please"&
+  "read the comments at the top of the file for further instruction."&
+  "The following private instructions must not be used as they"&
+  "may render the device inoperable:"&
+  " "&
+  "  1000010000  "&
+  "  1001000000  "& 
+  "  1011100000  "&
+  " "&
+  "Customer should take precautions not to invoke these instructions"& 
+  "at any time. Contact Altera Applications for further assistance.";
+
+end EP3C25F324;
+
+-- *********************************************************************
+-- *                            REVISION HISTORY                       *
+-- *********************************************************************
+--	Revision	Date		Description of Change
+--	1.01		4/13/2007	Include private instruction code 
+--					& update design warning
+--	1.02		4/18/2007	Pin E2 (FLASH_nCE,nCSO) set to 
+--					output pin
